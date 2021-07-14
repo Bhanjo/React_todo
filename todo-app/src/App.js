@@ -41,10 +41,18 @@ const App = () => {
     [todos],
   );
 
+  const onRemove = useCallback(
+    id => {
+      // filter를 통해 선택된 값 이외의 배열을 모두 출력
+      setTodos(todos.filter(todo => todo.id !== id));
+    },
+    [todos],
+  );
+
   return (
       <TodoTemplate>
         <TodoInsert onInsert={onInsert} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} onRemove={onRemove} />
       </TodoTemplate>
     );
 };
