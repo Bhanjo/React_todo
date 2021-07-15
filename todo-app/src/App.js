@@ -24,38 +24,29 @@ const App = () => {
   // ref를 통해 화면에 보여줄 필요가 없는 값들을 관리한다
   const nextId = useRef(2501);
   
-  const onInsert = useCallback(
-    text => {
-      const todo = {
-        id: nextId.current,
-        text,
-        checked: false,
-      };
-      // concat으로 원본배열은 보존하고 새로운 복사 배열 생성
-      setTodos(todos.concat(todo));
-      nextId.current += 1; // nextId 증가
-    },
-    [todos],
-  );
+  const onInsert = useCallback(text => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    // concat으로 원본배열은 보존하고 새로운 복사 배열 생성
+    setTodos(todos => todos.concat(todo));
+    nextId.current += 1; // nextId 증가
+    }, []);
 
-  const onRemove = useCallback(
-    id => {
+  const onRemove = useCallback(id => {
       // filter를 통해 선택된 값 이외의 배열을 모두 출력
-      setTodos(todos.filter(todo => todo.id !== id));
-    },
-    [todos],
-  );
+      setTodos(todos => todos.filter(todo => todo.id !== id));
+    }, []);
 
-  const onToggle = useCallback(
-    id => {
-      setTodos(
+  const onToggle = useCallback(id => {
+      setTodos(todos =>
         todos.map(todo =>
           todo.id === id ? {...todo, checked: !todo.checked} : todo,
           ),
       );
-    },
-    [todos],
-  );
+    }, []);
 
   return (
       <TodoTemplate>
